@@ -67,7 +67,7 @@ namespace std {
 
     template<typename... Args>
     inline void println(FILE* stream, const format_string<Args...> fmt, Args&&... args) {
-        fputs((vformat(fmt.get(), make_format_args(args...) + '\n').c_str()), stream);
+        fputs((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str(), stream);
     }
 
     inline void println(FILE* stream) {
