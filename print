@@ -34,6 +34,8 @@
 
 
 #include <cstdio>
+#include <ostream>
+
 #if __cplusplus >= 201103L
 #include <string>
 #endif 
@@ -55,6 +57,11 @@ namespace std {
     inline void print(FILE* stream, const format_string<Args...> fmt, Args&&... args) {
         fputs(vformat(fmt.get(), make_format_args(args...)).c_str(), stream);
     }
+
+    template<typename... Args>
+    inline void print(ostream& stream, const format_string<Args...> fmt, Args&&... args) {
+        stream << vformat(fmt.get(), make_format_args(args...));
+    }
     
     template<typename... Args>
     inline void println(const format_string<Args...> fmt, Args&&... args) {
@@ -70,9 +77,19 @@ namespace std {
         fputs((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str(), stream);
     }
 
+    template<typename... Args>
+    inline void println(ostream& stream, const format_string<Args...> fmt, Args&&... args) {
+        stream << vformat(fmt.get(), make_format_args(args...)) << endl;
+    }
+
     inline void println(FILE* stream) {
         fputc('\n', stream);
     }
+
+    inline void println(ostream& stream) {
+        stream.put('\n');
+    }
+
 #endif
 
     _GLIBCXX_END_NAMESPACE_VERSION
