@@ -47,37 +47,35 @@ namespace std {
 
 #if __cplusplus >= 202100L
     template<typename... Args>
-    inline void print(const format_string<Args...> fmt, Args... args) {
+    inline void print(const format_string<Args...> fmt, Args&&... args) {
         puts(vformat(fmt.get(), make_format_args(args...)).c_str());
     }
 
     template<typename... Args>
-    inline void print(FILE* stream, const format_string<Args...> fmt, Args... args) {
+    inline void print(FILE* stream, const format_string<Args...> fmt, Args&&... args) {
         fputs(vformat(fmt.get(), make_format_args(args...)).c_str(), stream);
     }
     
     template<typename... Args>
-    inline void println(const format_string<Args...> fmt, Args... args) {
+    inline void println(const format_string<Args...> fmt, Args&&... args) {
         puts((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str());
     }
 
     inline void println() { 
-        putc('\n'); 
+        putc('\n', stdout); 
     }
 
     template<typename... Args>
-    inline void println(FILE* stream, const format_string<Args...> fmt, Args...) {
-        fputs((vformat()(fmt.get(), make_format_args(args...) + '\n').c_str()), stream);
+    inline void println(FILE* stream, const format_string<Args...> fmt, Args&&... args) {
+        fputs((vformat(fmt.get(), make_format_args(args...) + '\n').c_str()), stream);
     }
 
-    inline void println(File* stream) {
+    inline void println(FILE* stream) {
         fputc('\n', stream);
     }
 #endif
 
     _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
-
-#endif
 
 #endif
