@@ -1,0 +1,76 @@
+//  <print> Formatted printing -*- C++ -*-
+
+// Copyright (C) 2023 Sanguine Noctis (C.S.R.B), Impish Death Tech.
+//
+// This file is (unoficcially) part of the GNU ISO C++ Library.  
+// This library is free
+// software; you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 3, or (at your option)
+// any later version.
+
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// Under Section 7 of GPL version 3, you are granted additional
+// permissions described in the GCC Runtime Library Exception, version
+// 3.1, as published by the Free Software Foundation.
+
+// You should have received a copy of the GNU General Public License and
+// a copy of the GCC Runtime Library Exception along with this program;
+// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+// <http://www.gnu.org/licenses/>.
+
+/** @file include/print
+ *  This is a Standard C++ Library header.
+ */
+
+#ifndef _GLIBCXX_PRINT
+#define _GLIBCXX_PRINT 1
+
+#pragma GCC system_header
+
+#if __cplusplus >= 202002L
+#include <cstdio>
+#include <string>
+#include <format>
+
+namespace std {
+    _GLIBCXX_BEGIN_NAMESPACE_VERSION
+
+    template<typename... Args>
+    inline void print(const format_string<Args...> fmt, Args... args) {
+        puts(vformat(fmt.get(), make_format_args(args...)).c_str());
+    }
+
+    template<typename... Args>
+    inline void print(FILE* stream, const format_string<Args...> fmt, Args... args) {
+        fputs(vformat(fmt.get(), make_format_args(args...)).c_str(), stream);
+    }
+    
+    template<typename... Args>
+    inline void println(const format_string<Args...> fmt, Args... args) {
+        puts((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str());
+    }
+
+    inline void println() { 
+        putc('\n'); 
+    }
+
+    template<typename... Args>
+    inline void println(FILE* stream, const format_string<Args...> fmt, Args...) {
+        fputs((vformat()(fmt.get(), make_format_args(args...) + '\n').c_str()));
+    }
+
+    inline void println(File* stream) {
+        fputc('\n', stream);
+    }
+    
+    _GLIBCXX_END_NAMESPACE_VERSION
+} // namespace
+
+#endif
+
+#endif
