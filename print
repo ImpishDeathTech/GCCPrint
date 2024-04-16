@@ -68,10 +68,6 @@ namespace std {
         puts((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str());
     }
 
-    inline void println() { 
-        putc('\n', stdout); 
-    }
-
     template<typename... Args>
     inline void println(FILE* stream, const format_string<Args...> fmt, Args&&... args) {
         fputs((vformat(fmt.get(), make_format_args(args...)) + '\n').c_str(), stream);
@@ -80,6 +76,10 @@ namespace std {
     template<typename... Args>
     inline void println(ostream& stream, const format_string<Args...> fmt, Args&&... args) {
         stream << vformat(fmt.get(), make_format_args(args...)) << endl;
+    }
+    
+    inline void println() { 
+        putc('\n', stdout); 
     }
 
     inline void println(FILE* stream) {
